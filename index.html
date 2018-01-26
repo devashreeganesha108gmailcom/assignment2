@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Number Guessing Game</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy"
+            crossorigin="anonymous">
+        <link href="styles.css" rel="stylesheet" type="text/css" media="screen">
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script>
+            function specialChars(name){
+                var pattern = new RegExp(/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/);
+                if (pattern.test(name))
+                    return true
+                else
+                    return false;
+            }
+            function numbers(name){
+                if (/\d/.test(name))
+                    return true;
+                else
+                    return false;
+            }
+            function isANumber(number){
+                if (isNaN(number))
+                    return false;
+                else
+                    return true;    
+            }
+            
+            var playerName = "";
+            var maximumNumber = "";
+            var minimumNumber = 1;
+            var gameStarted = false;
+            var randomNumber;
+            var numberOfGuessesAllowed;
+            var numberGuessed = 0;
+            var containSpecialChars = false;
+            var containNumbers = false;
+            var isNumber = false;
+
+            $(document).ready(function(){
+                function displayMessages(containSpecialChars, containNumbers, isNumber) {
+                        if (((containSpecialChars || containNumbers) && isNumber)) {
+                            $("#displaymessage").html("Enter the value for the fields below");
+                            $("#displaymessage1").html("Name cannot contain number of special characters");
+                            $("#displaymessage2").html("");
+                        }
+                        else if ((containSpecialChars || containNumbers) && !isNumber) {
+                            $("#displaymessage").html("Enter the value for the fields below");
+                            $("#displaymessage1").html("Name cannot contain number of special characters");
+                            $("#displaymessage2").html("Enter a valid whole number");
+                        }
+                        else if (!(containSpecialChars || containNumbers) && !isNumber){
+                            $("#displaymessage").html("Enter the value for the fields below");
+                            $("#displaymessage1").html("");
+                            $("#displaymessage2").html("Enter a valid whole number");
+                        }
+                        else if (!(containSpecialChars || containNumbers) && isNumber){
+                            $(".jumbotron").html("<h1 class=\"animated flash\" style=\"font-family:american-typewriter\">GAME STARTED</h1><br>"); 
+                            setTimeout(function(){ 
+                                $(".jumbotron").append("<h4 class=\"animated flash\" style=\"font-family: american-typewriter\">Maximum number as set by " + playerName + " is " + maximumNumber + "</h4>");                    
+                            },2000);
+                            setTimeout(function(){
+                                $(".jumbotron").append("<h4 class=\"animated flash\" style=\"font-family: american-typewriter\">Keep Guessing A Number Between 0 and " + maximumNumber + "</h4>");
+                            },4000);              
+                        }
+                }
+ 
+                $("#submitbuton").click(function() {
+                    playerName = $("#fullname").val();
+                    maximumNumber = $("#maxnum").val();
+                    
+                    if(playerName !== "" && maximumNumber !== "") {
+                        containSpecialChars = specialChars(playerName);
+                        containNumbers = numbers(playerName);
+                        isNumber = isANumber(maximumNumber);
+                        
+                        if (!containSpecialChars && !containNumbers && isNumber) 
+                            gameStarted = true;
+                        else
+                            gameStarted = false;
+             
+                        displayMessages(containSpecialChars, containNumbers, isNumber);
+
+                        if (gameStarted) {
+                            maximumNumber = parseInt(maximumNumber);
+                            randomNumber = Math.floor(Math.random() * (maximumNumber - minimumNumber)) + minimumNumber;
+                            numberOfGuessesAllowed = Math.floor(Math.random() * 20) + 5;
+
+                            setTimeout(function(){
+                                var offset = 20;
+                                $("html, body").animate({
+                                    scrollTop: $("#gamearea").offset().top + offset
+                                }, 2000);
+                            },5000);
+                            
+                            setTimeout(function(){
+                                $("#guess").html("<h5 class=\"animated flash\" style=\"font-family:american-typewriter\">Guess the whole number between " + minimumNumber + " and " + maximumNumber + "</h5>");
+                            },8000);
+                            
+                            setTimeout(function(){
+                                $("#answerButtonContainer").html("<input id=\"answer\" class=\"rounded animated tada\" type=\"text\"><br>");
+                            },9000);
+
+                            setTimeout(function(){
+                                $("#answerButtonContainer").append("<button id=\"answerbutton\" class=\"btn btn-primary mt-2 mb-2 animated tada\" style=\"font-family:american-typewriter\">Answer</button>");
+                                $("#answerbutton").click(function () {
+                                    alert("reached");
+                                    ++numberGuessed;
+                                    if (numberGuessed < numberOfGuessesAllowed) {
+                                        var answer = parseInt($("#answer").val());
+                                        if (answer > randomNumber) {
+                                            setTimeout(function () {
+                                                $("#guess").html("<h5 class=\"animated flash\" style=\"font-family:american-typewriter\">Guess too high. Guess Again </h5>");
+                                            }, 1000);
+                                        }
+                                        if (answer < randomNumber) {
+                                            setTimeout(function () {
+                                                $("#guess").html("<h5 class=\"animated flash\" style=\"font-family:american-typewriter\">Guess too low. Guess Again </h5>");
+                                            }, 1000);
+                                        }
+                                        if (answer === randomNumber) {
+                                            setTimeout(function () {
+                                                $("body").html("<div class=\"jumbotron text-center\"><h1 class=\"text-success\" style=\"font-family:american-typewriter\">GAME WON!</h1></div>" +
+                                                    "<button class=\"btn btn-primary mt-1 mb-1\" style=\"font-family:american-typewriter\" id=\"restartgame\">RESTART</button>");
+                                                $("#restartgame").click(function () {
+                                                    location.reload();
+                                                });
+                                            },1000);
+                                        }
+                                        setTimeout(function () {
+                                            $("#numberofguesses").html("<h5 class=\"animated flash\" style=\"font-family:american-typewriter\">Number of times guessed : " + numberGuessed + " </h5>");
+                                        }, 1000);
+                                        setTimeout(function () {
+                                            $("#maxnumberofguesses").html("<h5 class=\"animated flash\" style=\"font-family:american-typewriter\">Maximum guesses allowed : " + numberOfGuessesAllowed + " </h5>");
+                                        }, 1000);
+                                    }
+                                    else{
+                                        $("body").html("<div class=\"jumbotron text-center\"><h1 class=\"text-danger\" style=\"font-family:american-typewriter\">GAME OVER!</h1></div>" +
+                                            "<button class=\"btn btn-primary mt-1 mb-1\" style=\"font-family:american-typewriter\" id=\"restartgame\">RESTART</button>");
+                                        $("#restartgame").click(function () {
+                                            location.reload();
+                                        });
+                                    }
+                                });
+                            },10000);
+                        }
+                    }
+                    else {
+                        $("#displaymessage").html("Enter values for both fields");
+                        $("#displaymessage1").html("");
+                        $("#displaymessage2").html("");
+                    } 
+                });
+            });
+        </script>
+    </head>
+    <body class="text-center">
+        <div class="jumbotron">
+            <h1 id="titledisplay" style="font-family:american-typewriter">NUMBER GUESSING GAME</h1>
+            <h4 id="displaymessage">Enter the value for the fields below</h4>
+            <h4 id="displaymessage1"></h4>
+            <h4 id="displaymessage2"></h4>
+            <form id="myForm">
+                <label class="mb-1" for="name">Enter Name : </label>
+                <br>
+                <input class="text-center rounded" type="text" id="fullname" placeholder="Name">
+                <br>
+                <label class="mb-1" for="number">Enter Maximum Number : </label>
+                <br>
+                <input class="text-center rounded" type="text" id="maxnum" placeholder="Maximum Number">
+                <br>
+            </form>
+            <div class="mt-2" id="submitbuttoncontainer">
+                <button class="btn btn-primary" id="submitbuton">Submit</button>
+            </div>
+        </div>
+        <div class="mt-0" id="gamearea">
+            <div id="stats">
+                <p id="guess"></p>
+                <div id="answerButtonContainer">
+                </div>
+                <p id="maxnumberofguesses"></p>
+                <p id="numberofguesses"></p>
+            </div>
+        </div>
+    </body>
+</html>
