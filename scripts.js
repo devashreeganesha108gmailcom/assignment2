@@ -47,65 +47,65 @@ $(document).ready(function () {
         //series of if else statements to 
         //display the corresponding set of messages in the dashboard if conditionOne is true
         if (conditionOne) {
-            $("#displaymessage").html("<h5>Enter the value for the fields below</h5>");
-            $("#displaymessage1").html("<h5>Name cannot contain number of special characters</h5>");
-            $("#displaymessage2").html("");
+            $("#displaymessage").html(`<h5>Enter the value for the fields below</h5>`);
+            $("#displaymessage1").html(`<h5>Name cannot contain number of special characters</h5>`);
+            $("#displaymessage2").html(``);
         }//display the corresponding set of messages in the dashboard if conditionTwo is true
         else if (conditionTwo) {
-            $("#displaymessage").html("<h5>Enter the value for the fields below</h5>");
-            $("#displaymessage1").html("<h5>Name cannot contain number of special characters</h5>");
-            $("#displaymessage2").html("<h5>Enter a valid whole number</h5>");
+            $("#displaymessage").html(`<h5>Enter the value for the fields below</h5>`);
+            $("#displaymessage1").html(`<h5>Name cannot contain number of special characters</h5>`);
+            $("#displaymessage2").html(`<h5>Enter a valid whole number</h5>`);
         }//display the corresponding set of messages in the dashboard if conditionThree is true
         else if (conditionThree) {
-            $("#displaymessage").html("<h5>Enter the value for the fields below</h5>");
-            $("#displaymessage1").html("");
-            $("#displaymessage2").html("<h5>Enter a valid whole number</h5>");
+            $("#displaymessage").html(`<h5>Enter the value for the fields below</h5>`);
+            $("#displaymessage1").html(``);
+            $("#displaymessage2").html(`<h5>Enter a valid whole number</h5>`);
         }//display the corresponding set of messages in the dashboard if conditionFour is true
         else if (conditionFour) {
-            $(".jumbotron").html("<h1 class=\"animated flash\">GAME STARTED</h1><br>");
+            $(".jumbotron").html(`<h1 class="animated flash">GAME STARTED</h1><br>`);
             setTimeout(function () {
-                $(".jumbotron").append("<h4 class=\"animated flash\">Maximum number as set by " + playerName + " is " + maximumNumber + "</h4>");
+                $(".jumbotron").append(`<h4 class="animated flash">Maximum number as set by ${playerName} is ${maximumNumber}</h4>`);
             },2000);
             setTimeout(function () {
-                $(".jumbotron").append("<h4 class=\"animated flash\">Keep guessing a number from 0 to " + maximumNumber + "</h4>");
+                $(".jumbotron").append(`<h4 class="animated flash">Keep guessing a number from 0 to ${maximumNumber}</h4>`);
             },4000);
         }
     }
     //function that displays the message on the dashboard if the input fields are empty
     function displayMessageIfInputFieldsAreEmpty() {
-        $("#displaymessage").html("<h5>Enter values for both fields</h5>");
-        $("#displaymessage1").html("");
-        $("#displaymessage2").html("");
+        $("#displaymessage").html(`<h5>Enter values for both fields</h5>`);
+        $("#displaymessage1").html(``);
+        $("#displaymessage2").html(``);
     }
     //function that calls a call back function that makes the viewport scroll to the game area in an animation
     function scrollToGameScreen(){
         //callback function that scrolls the 
         setTimeout(function () {
             let offset = 80;
-            $("html, body").animate({
-                scrollTop: $("#gamearea").offset().top + offset
-            }, 2000);
-        }, 5000);
+            $(`html, body`).animate({
+                scrollTop: $(`#gamearea`).offset().top + offset
+            },2000);
+        },5000);
     }
     //function that displays the message that prompts the user to guess the number given the range with animation
     function displayMessageToPromptUserToGuessWithAnimation(){
         //callback function that marks the content of the corresponding HTML element
         setTimeout(function () {
-            $("#guess").html("<h5 class=\"animated flash\">Guess the whole number from " + minimumNumber + " to " + maximumNumber + "</h5>");
-        }, 8000);
+            $("#guess").html(`<h5 class="animated flash">Guess the whole number from ${minimumNumber} to ${maximumNumber}</h5>`);
+        },8000);
     }
     //function that displays answer button with animation
     function displayAnswerInputFieldWithAnimation(){
         //callback function that marks the content of the corresponding HTML element
         setTimeout(function () {
-            $("#answerButtonContainer").html("<input id=\"answer\" class=\"rounded animated tada\"><br>");
-        }, 9000);
+            $("#answerButtonContainer").html(`<input id="answer" class="rounded animated tada"><br>`);
+        },9000);
     }
     //function that displays the answer button with animation
     function displayAnswerButtonWithAnimation(){
         //callback function to display answer button with animation
         setTimeout(function() {
-            $("#answerButtonContainer").append("<button id=\"answerbutton\" class=\"btn btn-primary mt-2 mb-2 animated tada\">Answer</button>");
+            $("#answerButtonContainer").append(`<button id="answerbutton" class="btn btn-primary mt-2 mb-2 animated tada">Answer</button>`);
             //call back function that gets executed when the answer button is clicked
             $("#answerbutton").click(function () {
                 var answer = getGuessFromUser();
@@ -132,19 +132,19 @@ $(document).ready(function () {
             //condition that checks if the guess is lesser than the goal
             if (answer > randomNumber) {
                 setTimeout(function () {
-                    $("#guess").html("<h5 class=\"animated flash\">Guess too high. Guess Again </h5>");
+                    $("#guess").html(`<h5 class="animated flash">Guess too high. Guess Again </h5>`);
                 }, 1000);
             }//condition that checks if the guess is greater than the goal
             if (answer < randomNumber) {
                 setTimeout(function () {
-                    $("#guess").html("<h5 class=\"animated flash\">Guess too low. Guess Again </h5>");
+                    $("#guess").html(`<h5 class="animated flash">Guess too low. Guess Again </h5>`);
                 }, 1000);
             }//condition that checks if the guess is the same as the goal
             if (answer === randomNumber) {
                 //call back function that displays the end game result 
                 setTimeout(function () {
-                    $("body").html("<div class=\"jumbotron text-center\"><h1 class=\"text-success\">GAME WON!</h1></div>" +
-                        "<button class=\"btn btn-primary mt-1 mb-1\" id=\"restartgame\">RESTART</button>");
+                    $("body").html(`<div class="jumbotron text-center"><h1 class="text-success">GAME WON!</h1></div>
+                                    <button class="btn btn-primary mt-1 mb-1" id="restartgame">RESTART</button>`);
                     $("#restartgame").click(function () {
                         location.reload();
                     });
@@ -152,16 +152,18 @@ $(document).ready(function () {
             }
             //call back function that displays the number of times the user has guessed as an animation on screen
             setTimeout(function () {
-                $("#numberofguesses").html("<h5 class=\"animated flash\">Number of times guessed : " + numberGuessed + " </h5>");
+                $("#numberofguesses").html(`<h5 class="animated flash">Number of times guessed : ${numberGuessed}</h5>`);
             }, 1000);
             //callback function that displays the maximum number of guesses the user can make as an animation on screen
             setTimeout(function () {
-                $("#maxnumberofguesses").html("<h5 class=\"animated flash\">Maximum guesses allowed : " + numberOfGuessesAllowed + " </h5>");
+                $("#maxnumberofguesses").html(`<h5 class="animated flash">Maximum guesses allowed : ${numberOfGuessesAllowed}</h5>`);
             }, 1000);
         }
         else {
-            $("body").html("<div class=\"jumbotron text-center\"><h1 class=\"text-danger\">GAME OVER!</h1></div>" +
-                "<button class=\"btn btn-primary mt-1 mb-1\" id=\"restartgame\">RESTART</button>");
+            $("body").html(`<div class="jumbotron text-center">
+                                <h1 class="text-danger">GAME OVER!</h1>
+                            </div>
+                            <button class="btn btn-primary mt-1 mb-1" id="restartgame">RESTART</button>`);
             $("#restartgame").click(function () {
                 location.reload();
             });
