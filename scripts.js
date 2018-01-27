@@ -1,4 +1,4 @@
-
+//list of global variables used by the function
 var playerName = "";
 var maximumNumber = "";
 var minimumNumber = 0;
