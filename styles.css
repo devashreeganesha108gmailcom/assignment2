@@ -1,12 +1,19 @@
-.jumbotron {
-    background-image: url("https://newevolutiondesigns.com/images/freebies/black-wallpaper-10.jpg");   
-    height: 350px;
-    margin-bottom: 0;
-}
-
 body{
     color: rgb(226, 222, 222);
-    /* background-image: url("") */
+}
+button {
+    font-family: american-typewriter;
+}
+.animated.flash {
+    font-family:american-typewriter;
+}
+.jumbotron {
+    background-image: url("https://newevolutiondesigns.com/images/freebies/black-wallpaper-10.jpg");   
+    height: 400px;
+    margin-bottom: 0;
+}
+#titledisplay {
+    font-family:american-typewriter;
 }
 #stats {
     position: relative;
@@ -20,11 +27,12 @@ body{
     background-repeat: no-repeat;
     position: relative;
     top: -16px;
+    font-family: american-typewriter;
 }
-
-/* body { 
-	-webkit-backface-visibility: hidden;
-} */
+/* 
+    CSS Classes from here below borrowed from
+    https://github.com/jschr/textillate 
+*/
 .animated {
 	-webkit-animation-duration: 1s;
 	   -moz-animation-duration: 1s;
